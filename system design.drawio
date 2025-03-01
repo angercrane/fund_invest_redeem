@@ -1,0 +1,52 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36" version="26.0.16">
+  <diagram name="Page-1" id="QgpVLrM81mdTvXYx2PPj">
+    <mxGraphModel dx="1434" dy="772" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Z1E9AQAm0BA7jFC99icm-8" value="Express API Server" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="50" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Z1E9AQAm0BA7jFC99icm-18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Z1E9AQAm0BA7jFC99icm-9" target="Z1E9AQAm0BA7jFC99icm-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Z1E9AQAm0BA7jFC99icm-9" value="Fund Controller" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="182" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Z1E9AQAm0BA7jFC99icm-20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Z1E9AQAm0BA7jFC99icm-10" target="Z1E9AQAm0BA7jFC99icm-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Z1E9AQAm0BA7jFC99icm-10" value="Cache Manager" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="182" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Z1E9AQAm0BA7jFC99icm-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Z1E9AQAm0BA7jFC99icm-17" target="Z1E9AQAm0BA7jFC99icm-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Z1E9AQAm0BA7jFC99icm-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Z1E9AQAm0BA7jFC99icm-17" target="Z1E9AQAm0BA7jFC99icm-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Z1E9AQAm0BA7jFC99icm-17" value="Fund Service" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="322" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Z1E9AQAm0BA7jFC99icm-19" value="Database&lt;div&gt;(PostgreSQL)&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="430" y="322" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Z1E9AQAm0BA7jFC99icm-25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Z1E9AQAm0BA7jFC99icm-22" target="Z1E9AQAm0BA7jFC99icm-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Z1E9AQAm0BA7jFC99icm-22" value="Blockchain Service" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="250" y="462" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Z1E9AQAm0BA7jFC99icm-24" value="Smart Contract&lt;div&gt;(FundToken)&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="250" y="602" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Z1E9AQAm0BA7jFC99icm-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.625;entryY=-0.017;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="Z1E9AQAm0BA7jFC99icm-8" target="Z1E9AQAm0BA7jFC99icm-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Z1E9AQAm0BA7jFC99icm-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.375;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="Z1E9AQAm0BA7jFC99icm-8" target="Z1E9AQAm0BA7jFC99icm-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
