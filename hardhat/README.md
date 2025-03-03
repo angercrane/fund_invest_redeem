@@ -73,12 +73,12 @@ npx hardhat test
 
 Deploy to local network:
 ```bash
-npx hardhat run scripts/deploy.js --network hardhat
+npx hardhat run scripts/deploy.ts --network hardhat
 ```
 
 Deploy to Sepolia testnet:
 ```bash
-npx hardhat run scripts/deploy.js --network sepolia
+npx hardhat run scripts/deploy.ts --network sepolia
 ```
 
 ## Core Functions
