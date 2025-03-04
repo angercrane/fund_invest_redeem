@@ -1,6 +1,7 @@
 import express from 'express';
 import { createConnection } from 'typeorm';
 import { caching } from 'cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
 import { setupFundRoutes } from './routes';
 import { BlockchainService, FundService } from './services';
 import { FundController } from './controllers';
@@ -22,10 +23,11 @@ async function bootstrap() {
     synchronize: true // Be careful with this in production
   });
 
-  const cacheManager = await caching('memory', {
-    max: 100,
-    ttl: 300000 // 5 minutes
-  });
+  const cache = await caching(await redisStore({
+    url: `redis://${config.redis.host}:${config.redis.port}`,
+    password: config.redis.password,
+    ttl: 300 // 5 minutes in seconds
+  }));
 
   // Initialize services
   const blockchainService = new BlockchainService(
@@ -37,7 +39,7 @@ async function bootstrap() {
   const fundService = new FundService(
     blockchainService,
     connection.getRepository(Transaction),
-    cacheManager
+    cache
   );
 
   const fundController = new FundController(fundService);
@@ -55,4 +57,4 @@ async function bootstrap() {
   });
 }
 
-bootstrap().catch(Logger.error); 
+bootstrap().catch(Logger.error);

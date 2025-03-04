@@ -5,16 +5,16 @@ export function setupFundRoutes(fundController: FundController): Router {
   const router = Router();
 
   // Fund metrics endpoint
-  router.get('/metrics', errorHandlerWrapper(fundController.getFundMetrics));
+  router.get('/metrics', errorHandlerWrapper((req, res) => fundController.getFundMetrics(req, res)));
 
   // Investment endpoint
-  router.post('/invest', errorHandlerWrapper(fundController.invest));
+  router.post('/invest', errorHandlerWrapper((req, res) => fundController.invest(req, res)));
 
   // Redemption endpoint
-  router.post('/redeem', errorHandlerWrapper(fundController.redeem));
+  router.post('/redeem', errorHandlerWrapper((req, res) => fundController.redeem(req, res)));
 
   // Balance check endpoint
-  router.get('/balance/:address', errorHandlerWrapper(fundController.getBalance));
+  router.get('/balance/:address', errorHandlerWrapper((req, res) => fundController.getBalance(req, res)));
 
   return router;
 } 
