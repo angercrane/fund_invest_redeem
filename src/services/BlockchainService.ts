@@ -1,19 +1,19 @@
 import { ethers } from 'ethers';
 import { FundMetrics } from '../types/fund.types';
+import fundABI from "../abi/FundToken.json";
 
 export class BlockchainService {
   private contract: ethers.Contract;
   private signer: ethers.Signer;
 
   constructor(
-    contractAddress: string,
-    contractABI: any,
+    contractAddress: any,
     providerUrl: string,
     privateKey: string
   ) {
     const provider = new ethers.JsonRpcProvider(providerUrl);
     this.signer = new ethers.Wallet(privateKey, provider);
-    this.contract = new ethers.Contract(contractAddress, contractABI, this.signer);
+    this.contract = new ethers.Contract(contractAddress, fundABI, this.signer);
   }
 
   async getFundMetrics(): Promise<FundMetrics> {

@@ -30,7 +30,6 @@ async function bootstrap() {
   // Initialize services
   const blockchainService = new BlockchainService(
     config.contractAddress,
-    config.contractAbi,
     config.blockchainRpcUrl,
     config.privateKey
   );
