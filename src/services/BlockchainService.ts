@@ -1,25 +1,34 @@
-import { ethers } from 'ethers';
+import Web3 from 'web3';
 import { FundMetrics } from '../types/fund.types';
 import fundABI from "../abi/FundToken.json";
 
 export class BlockchainService {
-  private contract: ethers.Contract;
-  private signer: ethers.Signer;
+  private web3: Web3;
+  private contract: any;
+  private account: any;
 
   constructor(
-    contractAddress: any,
+    contractAddress: string,
     providerUrl: string,
     privateKey: string
   ) {
-    const provider = new ethers.JsonRpcProvider(providerUrl);
-    this.signer = new ethers.Wallet(privateKey, provider);
-    this.contract = new ethers.Contract(contractAddress, fundABI, this.signer);
+
+    // Initialize Web3 provider
+    this.web3 = new Web3(new Web3.providers.HttpProvider("https://eth-sepolia.public.blastapi.io"));
+    
+    // Create account from private key
+    this.account = this.web3.eth.accounts.privateKeyToAccount(privateKey);
+    this.web3.eth.accounts.wallet.add(this.account);
+    
+    // Initialize contract
+    this.contract = new this.web3.eth.Contract(fundABI, contractAddress);
   }
 
   async getFundMetrics(): Promise<FundMetrics> {
     try {
-      const metrics = await this.contract.getFundMetrics();
-      const sharePrice = await this.contract.getSharePrice();
+      console.log("this.contract", this.contract);
+      const metrics = await this.contract.methods.getFundMetrics().call();
+      const sharePrice = await this.contract.methods.getSharePrice().call();
       
       return {
         totalAssetValue: Number(metrics.totalAssetValue),
@@ -34,8 +43,12 @@ export class BlockchainService {
 
   async invest(investorAddress: string, usdAmount: number): Promise<string> {
     try {
-      const tx = await this.contract.invest(investorAddress, usdAmount);
-      const receipt = await tx.wait();
+      const tx = this.contract.methods.invest(investorAddress, usdAmount);
+      const gas = await tx.estimateGas({ from: this.account.address });
+      const receipt = await tx.send({
+        from: this.account.address,
+        gas
+      });
       return receipt.transactionHash;
     } catch (error: any) {
       throw new Error(`Investment failed: ${error.message}`);
@@ -44,8 +57,12 @@ export class BlockchainService {
 
   async redeem(investorAddress: string, shares: number): Promise<string> {
     try {
-      const tx = await this.contract.redeem(investorAddress, shares);
-      const receipt = await tx.wait();
+      const tx = this.contract.methods.redeem(investorAddress, shares);
+      const gas = await tx.estimateGas({ from: this.account.address });
+      const receipt = await tx.send({
+        from: this.account.address,
+        gas
+      });
       return receipt.transactionHash;
     } catch (error: any) {
       throw new Error(`Redemption failed: ${error.message}`);
@@ -54,7 +71,7 @@ export class BlockchainService {
 
   async getBalance(investorAddress: string): Promise<number> {
     try {
-      const balance = await this.contract.balanceOf(investorAddress);
+      const balance = await this.contract.methods.balanceOf(investorAddress).call();
       return Number(balance);
     } catch (error: any) {
       throw new Error(`Failed to fetch balance: ${error.message}`);
