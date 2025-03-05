@@ -14,7 +14,7 @@ export class BlockchainService {
   ) {
 
     // Initialize Web3 provider
-    this.web3 = new Web3(new Web3.providers.HttpProvider(providerUrl));
+    this.web3 = new Web3(new Web3.providers.HttpProvider("https://holesky.gateway.tenderly.co"));
     
     // Create account from private key
     this.account = this.web3.eth.accounts.privateKeyToAccount(`0x${privateKey}`);
@@ -40,7 +40,7 @@ export class BlockchainService {
         sharePrice: Number(sharePrice)
       };
     } catch (error: any) {
-      throw new Error(`Failed to fetch fund metrics: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   }
 
@@ -50,11 +50,12 @@ export class BlockchainService {
       const gas = await tx.estimateGas({ from: this.account.address });
       const receipt = await tx.send({
         from: this.account.address,
-        gas
+        gas: "3000000"
       });
       return receipt.transactionHash;
     } catch (error: any) {
-      throw new Error(`Investment failed: ${error.message}`);
+      console.log(error);
+      throw new Error(`${error.message}`);
     }
   }
 
@@ -64,11 +65,11 @@ export class BlockchainService {
       const gas = await tx.estimateGas({ from: this.account.address });
       const receipt = await tx.send({
         from: this.account.address,
-        gas
+        gas:  "3000000"
       });
       return receipt.transactionHash;
     } catch (error: any) {
-      throw new Error(`Redemption failed: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   }
 
@@ -77,7 +78,7 @@ export class BlockchainService {
       const balance = await this.contract.methods.balanceOf(investorAddress).call();
       return Number(balance);
     } catch (error: any) {
-      throw new Error(`Failed to fetch balance: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   }
 } 

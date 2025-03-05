@@ -40,7 +40,6 @@ export class FundService {
       );
 
       const sharesIssued = request.usdAmount / metrics.sharePrice;
-
       const transaction = this.transactionRepository.create({
         investorAddress: request.investorAddress,
         usdAmount: request.usdAmount,
@@ -49,10 +48,8 @@ export class FundService {
         type: TransactionType.INVESTMENT,
         transactionHash: txHash
       });
-
       await this.transactionRepository.save(transaction);
       await this.cacheManager.del('fundMetrics'); // Invalidate cache
-
       return transaction;
     } catch (error: any) {
       throw new Error(`Investment failed: ${error.message}`);
