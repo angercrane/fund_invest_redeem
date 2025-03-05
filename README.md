@@ -125,6 +125,9 @@ The system implements a centralized error handling approach with custom error ty
 - BadRequestError
 - NotFoundError
 - UnauthorizedError
+- InternalServerError
+- DuplicationError
+- ArgumentValidationError
 - CustomError
 
 All errors are logged and returned with appropriate HTTP status codes.
