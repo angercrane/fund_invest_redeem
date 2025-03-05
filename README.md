@@ -43,16 +43,34 @@ A backend service that manages investments in a fund through smart contract inte
 
 ## Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file in the root directory with the following variables:
 
 ```env
+# Server Configuration
 PORT=3000
+
+# Database Configuration
 DATABASE_URL=postgresql://localhost:5432/fund_db
+
+# Blockchain Configuration
 BLOCKCHAIN_RPC_URL=http://localhost:8545
 CONTRACT_ADDRESS=your_contract_address
-CONTRACT_ABI=your_contract_abi
 PRIVATE_KEY=your_private_key
+
+# Optional: Testnet Configuration (e.g., Holesky)
+TESTNET_RPC_URL=https://ethereum-holesky-rpc.publicnode.com
+TESTNET_CONTRACT_ADDRESS=your_testnet_contract_address
+TESTNET_PRIVATE_KEY=your_testnet_private_key
+
+# Cache Configuration
+CACHE_TTL=300 # Cache time-to-live in seconds
+CACHE_MAX_ITEMS=100 # Maximum items in cache
+
+# Logging Configuration
+LOG_LEVEL=info # Options: error, warn, info, debug
 ```
+
+**Note**: Replace placeholders (e.g., `your_contract_address`, `your_private_key`) with actual values. Do not commit the `.env` file to version control.
 
 ## Installation
 
@@ -60,18 +78,21 @@ PRIVATE_KEY=your_private_key
 ```bash
 git clone <repository-url>
 ```
+2. Backend 
+```bash
+cd Backend
 
-2. Install dependencies:
+3. Install dependencies:
 ```bash
 npx bun install
 ```
 
-3. Build the project:
+4. Build the project:
 ```bash
 npx bun build
 ```
 
-4. Start the server:
+5. Start the server:
 ```bash
 npx bun start
 ```
