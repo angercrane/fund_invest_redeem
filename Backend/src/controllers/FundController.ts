@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { FundService } from '../services';
 import { httpStatus } from '../config';
-
+import { BadRequestError, InternalServerError } from '../errors';
 export class FundController {
   constructor(private fundService: FundService) {}
 
@@ -19,13 +19,13 @@ export class FundController {
       const { investorAddress, usdAmount } = req.body;
       
       if (!investorAddress || !usdAmount) {
-        return res.status(httpStatus.BAD_REQUEST).json({ error: 'Missing required parameters' });
+        throw new BadRequestError('Missing required parameters');
       }
 
       const transaction = await this.fundService.invest({ investorAddress, usdAmount });
       res.json(transaction);
     } catch (error: any) {
-      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
+      throw new InternalServerError(error.message);
     }
   }
 

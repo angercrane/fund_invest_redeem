@@ -17,6 +17,7 @@ contract FundToken is IFundToken, Ownable, ReentrancyGuard, Pausable {
 
     constructor(uint256 initialAssetValue) {
         fundMetrics.totalAssetValue = initialAssetValue;
+        fundMetrics.sharesSupply = initialAssetValue;  // Initialize shares supply to match initial asset value
         fundMetrics.lastUpdateTime = block.timestamp;
     }
 
@@ -29,20 +30,20 @@ contract FundToken is IFundToken, Ownable, ReentrancyGuard, Pausable {
         whenNotPaused 
         returns (uint256 sharesIssued) 
     {
-        require(usdAmount >= MIN_INVESTMENT, "Investment below minimum");
+        require(usdAmount * PRICE_DECIMALS >= MIN_INVESTMENT, "Investment below minimum");
         require(investor != address(0), "Invalid investor address");
 
         uint256 currentSharePrice = getSharePrice();
         require(currentSharePrice > 0, "Invalid share price");
 
         // Calculate shares to issue: USD amount / price per share
-        sharesIssued = (usdAmount * PRICE_DECIMALS) / currentSharePrice;
+        sharesIssued = usdAmount / currentSharePrice;
         require(sharesIssued > 0, "Investment too small for shares");
 
         // Update state
-        investorShares[investor] += sharesIssued;
-        fundMetrics.sharesSupply += sharesIssued;
-        fundMetrics.totalAssetValue += usdAmount;
+        investorShares[investor] += sharesIssued * PRICE_DECIMALS;
+        fundMetrics.sharesSupply -= sharesIssued * PRICE_DECIMALS;
+        fundMetrics.totalAssetValue += usdAmount * PRICE_DECIMALS;
         fundMetrics.lastUpdateTime = block.timestamp;
 
         emit Investment(
@@ -70,13 +71,13 @@ contract FundToken is IFundToken, Ownable, ReentrancyGuard, Pausable {
         require(currentSharePrice > 0, "Invalid share price");
 
         // Calculate USD amount: shares * price per share
-        usdAmount = (shares * currentSharePrice) / PRICE_DECIMALS;
-        require(usdAmount <= fundMetrics.totalAssetValue, "Insufficient fund balance");
+        usdAmount = shares * currentSharePrice;
+        require(usdAmount * PRICE_DECIMALS <= fundMetrics.totalAssetValue, "Insufficient fund balance");
 
         // Update state
-        investorShares[investor] -= shares;
-        fundMetrics.sharesSupply -= shares;
-        fundMetrics.totalAssetValue -= usdAmount;
+        investorShares[investor] -= shares * PRICE_DECIMALS;
+        fundMetrics.sharesSupply += shares * PRICE_DECIMALS;
+        fundMetrics.totalAssetValue -= usdAmount * PRICE_DECIMALS;
         fundMetrics.lastUpdateTime = block.timestamp;
 
         emit Redemtion(
@@ -95,12 +96,12 @@ contract FundToken is IFundToken, Ownable, ReentrancyGuard, Pausable {
     }
 
     function getSharePrice() public view override returns (uint256) {
-        if (fundMetrics.sharesSupply == 0) return PRICE_DECIMALS; // Initial price of 1 USD
-        return (fundMetrics.totalAssetValue * PRICE_DECIMALS) / fundMetrics.sharesSupply;
+        if (fundMetrics.sharesSupply == 0) return 1; // Initial price of 1 USD
+        return (fundMetrics.totalAssetValue) / fundMetrics.sharesSupply;
     }
 
     function balanceOf(address investor) external view override returns (uint256) {
-        return investorShares[investor];
+        return investorShares[investor] / PRICE_DECIMALS;
     }
 
     // Admin functions
