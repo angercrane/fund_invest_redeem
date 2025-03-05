@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { FundService } from '../services/FundService';
+import { FundService } from '../services';
 import { httpStatus } from '../config';
 
 export class FundController {

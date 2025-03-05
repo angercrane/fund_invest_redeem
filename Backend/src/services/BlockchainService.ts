@@ -1,6 +1,6 @@
 import Web3 from 'web3';
-import { FundMetrics } from '../types/fund.types';
-import fundABI from "../abi/FundToken.json";
+import { FundMetrics } from '../types';
+import FundTokenABI from "../abi/FundToken.json";
 
 export class BlockchainService {
   private web3: Web3;
@@ -14,21 +14,24 @@ export class BlockchainService {
   ) {
 
     // Initialize Web3 provider
-    this.web3 = new Web3(new Web3.providers.HttpProvider("https://eth-sepolia.public.blastapi.io"));
+    this.web3 = new Web3(new Web3.providers.HttpProvider(providerUrl));
     
     // Create account from private key
-    this.account = this.web3.eth.accounts.privateKeyToAccount(privateKey);
+    this.account = this.web3.eth.accounts.privateKeyToAccount(`0x${privateKey}`);
     this.web3.eth.accounts.wallet.add(this.account);
     
     // Initialize contract
-    this.contract = new this.web3.eth.Contract(fundABI, contractAddress);
+    this.contract = new this.web3.eth.Contract(FundTokenABI, contractAddress);
   }
 
   async getFundMetrics(): Promise<FundMetrics> {
     try {
-      console.log("this.contract", this.contract);
-      const metrics = await this.contract.methods.getFundMetrics().call();
-      const sharePrice = await this.contract.methods.getSharePrice().call();
+      const metrics = await this.contract.methods.getFundMetrics().call({
+        from: this.account.address
+      });
+      const sharePrice = await this.contract.methods.getSharePrice().call({
+        from: this.account.address
+      });
       
       return {
         totalAssetValue: Number(metrics.totalAssetValue),

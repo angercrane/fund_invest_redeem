@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { FundController } from '../controllers/FundController';
-import { errorHandlerWrapper } from '../utils/errorHandler';
+import { FundController } from '../controllers';
+import { errorHandlerWrapper } from '../utils';
 export function setupFundRoutes(fundController: FundController): Router {
   const router = Router();
 

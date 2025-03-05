@@ -5,10 +5,10 @@ dotenv.config();
 export const config = {
   port: process.env.PORT || 3000,
   databaseUrl: process.env.DATABASE_URL || 'postgresql://localhost:5432/fund_db',
-  blockchainRpcUrl: process.env.BLOCKCHAIN_RPC_URL || 'https://eth-sepolia.g.alchemy.com/v2/',
-  contractAddress: process.env.CONTRACT_ADDRESS || '',
+  blockchainRpcUrl: process.env.BLOCKCHAIN_RPC_URL || "https://eth-sepolia.public.blastapi.io",
+  contractAddress: process.env.CONTRACT_ADDRESS || "0x0000000000000000000000000000000000000000",
   redisUrl: process.env.REDIS_URL || 'redis://localhost:6379',
-  privateKey: process.env.PRIVATE_KEY || '',
+  privateKey: process.env.PRIVATE_KEY || "0x0000000000000000000000000000000000000000000000000000000000000000",
   redis: {
     host: process.env.REDIS_HOST || 'localhost',
     port: parseInt(process.env.REDIS_PORT || '6379'),

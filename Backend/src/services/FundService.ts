@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { BlockchainService } from './BlockchainService';
-import { Transaction, TransactionType } from '../entities/Transaction.entity';
-import { FundMetrics, InvestmentRequest, RedemptionRequest } from '../types/fund.types';
+import { Transaction, TransactionType } from '../entities';
+import { FundMetrics, InvestmentRequest, RedemptionRequest } from '../types';
 import { Cache } from 'cache-manager';
 
 export class FundService {
